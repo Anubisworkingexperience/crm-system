@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/login.css">
+  <link rel="stylesheet" href="../styles/register.css">
+  <script src="../scripts/passwordValidation.js" defer></script>
+  <title>Register — CRM</title>
+</head>
+<body>
+  <a href="./login.html" class="back-button">⬅ Назад</a>
+  <form action="/register" method="post">
+    <div class="firstName">
+      <label for="login">Имя </label>
+      <input type="text" name="firstName" id="firstName" required>
+    </div>
+    <div class="lastName">
+      <label for="lastName">Фамилия</label>
+      <input type="text" name="lastName" id="lastName" required>
+    </div>
+    <div class="email">
+      <label for="email">Электронная почта</label>
+      <input type="email" name="email" id="email" required>
+    </div>
+    <div class="password">
+      <label for="password">Пароль</label>
+      <input type="password" name="password" id="password" required>
+    </div>
+    <div class="password-confirm">
+      <label for="password-confirm">Подвердить пароль</label>
+      <input type="password" name="password-confirm" id="password-confirm" required >
+    </div>
+    <input type="submit" value="Зарегистрироваться" class="register-button">
+  </form>
+</body>
+</html>

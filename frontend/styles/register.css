@@ -1,0 +1,18 @@
+body {
+  position: relative;
+}
+
+.register-button {
+  margin: 0 auto;
+  width: max-content;
+}
+
+.register-button:hover {
+  cursor: pointer;
+} 
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}

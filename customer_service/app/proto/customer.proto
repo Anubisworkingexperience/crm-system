@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+service CustomerService {
+  rpc CreateCustomer (CreateCustomerRequest) returns (CustomerResponse);
+  rpc GetCustomer (GetCustomerRequest) returns (CustomerResponse);
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (CustomerResponse);
+  rpc DeleteCustomer (DeleteCustomerRequest) returns (Empty);
+  rpc ListCustomers (ListCustomersRequest) returns (ListCustomersResponse);
+}
+
+message CreateCustomerRequest {
+  string name = 1;
+  string email = 2;
+}
+
+message GetCustomerRequest {
+ string id = 1; 
+}
+
+message DeleteCustomerRequest {
+  string id = 1;
+}
+
+message UpdateCustomerRequest {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message ListCustomersRequest {
+  int32 page = 1;
+  int32 per_page = 2;
+}
+
+message CustomerResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string created_at = 4;
+}
+
+message ListCustomersResponse {
+  repeated CustomerResponse customers = 1;  
+}
+
+message Empty {}

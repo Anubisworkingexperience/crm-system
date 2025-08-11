@@ -1,0 +1,3 @@
+app/proto/order_pb2.py
+app/proto/order_pb2_grpc.py
+venv

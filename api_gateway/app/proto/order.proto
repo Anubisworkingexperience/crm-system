@@ -26,5 +26,3 @@ message OrderResponse {
 message CustomerOrder {
   repeated OrderResponse orders = 1;
 }
-
-message Empty {}

@@ -3,3 +3,5 @@ app/proto/order_pb2_grpc.py
 app/proto/customer_pb2.py
 app/proto/customer_pb2_grpc.py
 venv
+.env
+__pycache__

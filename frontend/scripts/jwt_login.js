@@ -8,7 +8,7 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
     const res = await fetch("http://localhost:8000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ login, password })
+      body: JSON.stringify({ email, password })
     });
 
     if (!res.ok) {
@@ -20,7 +20,7 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
     const data = await res.json();
     localStorage.setItem("token", data.access_token);
 
-    // redirect
+    // redirects
     window.location.href = "../pages/dashboard.html";
   } catch (err) {
     console.error(err);

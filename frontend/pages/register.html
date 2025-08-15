@@ -6,31 +6,23 @@
   <link rel="stylesheet" href="../styles/login.css">
   <link rel="stylesheet" href="../styles/register.css">
   <script src="../scripts/passwordValidation.js" defer></script>
-  <script src="../scripts/jwt_register.js"></script>
+  <script src="../scripts/jwt_register.js" defer></script>
   <title>Register — CRM</title>
 </head>
 <body>
   <a href="./login.html" class="back-button">⬅ Назад</a>
-  <form action="/register" method="post">
-    <div class="firstName">
-      <label for="firstName">Имя </label>
-      <input type="text" name="firstName" id="firstName" required>
-    </div>
-    <div class="lastName">
-      <label for="lastName">Фамилия</label>
-      <input type="text" name="lastName" id="lastName" required>
-    </div>
+  <form class="register-form">
     <div class="email">
       <label for="email">Электронная почта</label>
       <input type="email" name="email" id="email" required>
     </div>
     <div class="password">
       <label for="password">Пароль</label>
-      <input type="password" name="password" id="password" required>
+      <input type="password" name="password" id="password" required minlength="6">
     </div>
     <div class="password-confirm">
       <label for="password-confirm">Подвердить пароль</label>
-      <input type="password" name="password-confirm" id="password-confirm" required >
+      <input type="password" name="password-confirm" id="password-confirm" required minlength="6">
     </div>
     <input type="submit" value="Зарегистрироваться" class="register-button">
   </form>

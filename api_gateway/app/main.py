@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.middleware.jwt_middleware import JWTMiddleware
-from app.routers import customers, orders, health
+from app.routers import customers, orders
 from app.auth import routers as auth_routers
 from app.grpc.customer_client import CustomerClient
 from app.grpc.order_client import OrderClient

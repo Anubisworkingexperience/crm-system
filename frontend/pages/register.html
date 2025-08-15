@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../styles/register.css">
   <script src="../scripts/passwordValidation.js" defer></script>
   <script src="../scripts/jwt_register.js" defer></script>
-  <title>Register — CRM</title>
+  <title>Регистрация — CRM</title>
 </head>
 <body>
   <a href="./login.html" class="back-button">⬅ Назад</a>
@@ -21,10 +21,11 @@
       <input type="password" name="password" id="password" required minlength="6">
     </div>
     <div class="password-confirm">
-      <label for="password-confirm">Подвердить пароль</label>
+      <label for="password-confirm">Подтвердить пароль</label>
       <input type="password" name="password-confirm" id="password-confirm" required minlength="6">
     </div>
     <input type="submit" value="Зарегистрироваться" class="register-button">
+    <div class="registered-error"></div>
   </form>
 </body>
 </html>

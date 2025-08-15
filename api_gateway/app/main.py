@@ -41,14 +41,13 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    
+    app.add_middleware(JWTMiddleware)
 
     # routes
     app.include_router(auth_routers.router)    
     app.include_router(customers.router)      
     app.include_router(orders.router)          
-
-    # middleware
-    app.add_middleware(JWTMiddleware)
 
     return app
 

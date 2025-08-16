@@ -46,3 +46,8 @@ form input {
 .register {
   text-align: center;
 }
+
+.wrong-password, .register-error {
+  color: red;
+  font-size: 1.025rem;
+}

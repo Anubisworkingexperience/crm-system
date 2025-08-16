@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const passwordError = document.querySelector(".wrong-password");
   
     try {
       const res = await fetch("http://localhost:8000/login", {
@@ -18,7 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
   
       if (!res.ok) {
         const error = await res.json();
+
         console.log(error.detail || "Login failed");
+        console.log(res);
+        console.log(error.detail, typeof error.detail)
+        console.log(error.detail[0].type);
+        if (error.detail == "Invalid credentials") {
+          passwordError.textContent = "Неправильный логин/пароль";
+        }
+        else if (error.detail[0].type == "value_error") {
+          console.log("Wrong data format");
+          passwordError.textContent = "Введите данные в правильном формате";
+        }
         return;
       }
   

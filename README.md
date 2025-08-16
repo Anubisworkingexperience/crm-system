@@ -56,5 +56,5 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 7. Запустите frontend сервер
 ```bash
 cd ../frontend
-python -m http.server 5500
+python3 -m http.server 5500
 ```

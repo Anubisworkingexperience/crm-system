@@ -16,10 +16,10 @@ async def create_customer(data: CustomerIn, request: Request):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     return {
-        "id": res.customer.id,
-        "name": res.customer.name,
-        "email": res.customer.email,
-        "created_at": res.customer.created_at.ToDatetime().isoformat()
+        "id": res.id,
+        "name": res.name,
+        "email": res.email,
+        "created_at": res.created_at
     }
 
 @router.get("/{customer_id}")
@@ -67,7 +67,7 @@ async def list_customers(
                 "id": c.id,
                 "name": c.name,
                 "email": c.email,
-                "created_at": c.created_at.ToDatetime().isoformat(),
+                "created_at": c.created_at
             } for c in res.customers
         ]
     }

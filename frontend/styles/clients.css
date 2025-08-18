@@ -4,6 +4,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-right: 25px;
+  min-height: 100vh;
 }
 
 h2 {
@@ -19,9 +20,10 @@ h2 {
 main {
   width: 100%;
   display: flex;
-  justify-content: flex-end; 
+  justify-content: center; 
   align-items: flex-start;
   padding: 20px;
+  height: 100%;
 }
 
 button:hover {
@@ -57,4 +59,8 @@ header button {
   2px 2px #23d1ae,
   -1em 0 0.1em #23d1ae;
   padding: 15px;
+}
+
+.clients {
+  margin: 0 auto;
 }

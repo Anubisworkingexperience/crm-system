@@ -32,14 +32,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Создайте .env файл
+4. Настройте переменные окружения для api_gateway
 ```bash
 touch .env
 cp .env.example .env
-```
-
-5. Настройте переменные окружения
-```bash
+# Введите свои данные
 DATABASE_URL=postgresql+asyncpg://<username>:<password>@<host>:<port>/<database_name>
 JWT_SECRET=<your_secret_jwt_token>
 ```
@@ -49,12 +46,29 @@ jwt токен можно сгенерировать так:
 openssl rand -hex 32
 ```
 
-6. Запустите backend сервер
+5. Запустите backend сервер
 ```bash
+source venv/bin/activate
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
-7. Запустите frontend сервер
+6. Запустите frontend сервер
 ```bash
 cd ../frontend
+source venv/bin/activate
 python3 -m http.server 5500
+```
+
+7. Настройте переменные окружения для Customer Service
+```bash
+cd ../customer_service
+touch .env
+cp .env.example .env
+# Введите свои данные
+DATABASE_URL=postgresql+psycopg2://<username>:<password>@<host>:<port>/<database_name>
+```
+
+8. Запустите Customer Service
+```bash
+source venv/bin/activate
+python3 app/server.py
 ```

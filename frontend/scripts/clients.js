@@ -15,6 +15,8 @@ async function fetchCustomers() {
     headers: { Authorization: `Bearer ${token}` }
   });
 
+  console.log(res);
+
   if (!res.ok) {
     alert("Ошибка при загрузке клиентов");
     return;
@@ -22,6 +24,7 @@ async function fetchCustomers() {
 
   const data = await res.json();
   renderCustomers(data.customers);
+  console.log(data.customers)
 }
 
 function renderCustomers(customers) {
@@ -31,6 +34,10 @@ function renderCustomers(customers) {
   customers.forEach(c => {
     const client = document.createElement("div");
     client.className = "customer-card";
+
+    const customerName = document.createElement('h3');
+    customerName.textContent = c.name.toString() || "";
+    client.appendChild(customerName);
 
     const customerEmail = document.createElement('h3');
     customerEmail.textContent = c.email.toString() || "";
@@ -79,6 +86,7 @@ document.querySelector(".create-customer").addEventListener("submit", async (e) 
   e.preventDefault();
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
+  const clientList = document.querySelector(".clients");
 
   const res = await fetch(`${API_URL}/customers`, {
     method: "POST",

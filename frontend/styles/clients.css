@@ -64,3 +64,8 @@ header button {
 .clients {
   margin: 0 auto;
 }
+
+.customer-buttons {
+  display: flex;
+  gap: 7px;
+}

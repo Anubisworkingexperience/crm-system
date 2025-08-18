@@ -43,7 +43,7 @@ async def update_customer(customer_id: str, data: CustomerIn, request: Request):
         raise HTTPException(status_code=404, detail="Customer not found")
     return {
         "id": c.id, "name": c.name, "email": c.email,
-        "created_at": c.created_at.ToDatetime().isoformat()
+        "created_at": c.created_at
     }
 
 @router.delete("/{customer_id}", status_code=204)

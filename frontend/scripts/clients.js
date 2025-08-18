@@ -15,16 +15,16 @@ async function fetchCustomers() {
     headers: { Authorization: `Bearer ${token}` }
   });
 
-  console.log(res);
+  // console.log(res);
 
   if (!res.ok) {
-    alert("Ошибка при загрузке клиентов");
+    console.log("Ошибка при загрузке клиентов");
     return;
   }
 
   const data = await res.json();
   renderCustomers(data.customers);
-  console.log(data.customers)
+  // console.log(data.customers)
 }
 
 function renderCustomers(customers) {
@@ -47,37 +47,46 @@ function renderCustomers(customers) {
     createdAt.textContent = `Создан: ${new Date(c.created_at).toLocaleString()}` || "";
     client.appendChild(createdAt);
 
-        // Show orders button
-        const ordersBtn = document.createElement("button");
-        ordersBtn.textContent = "Заказы";
-        ordersBtn.addEventListener("click", () => showOrders(c.id));
-        client.appendChild(ordersBtn);
+    const customerButtons = document.createElement('div');
+    customerButtons.classList.add('customer-buttons');
     
-        // Create order button
-        const createBtn = document.createElement("button");
-        createBtn.textContent = "Создать заказ";
-        createBtn.addEventListener("click", () => createOrder(c.id));
-        client.appendChild(createBtn);
+    // Show orders button
+    const ordersBtn = document.createElement("button");
+    ordersBtn.textContent = "Заказы";
+    ordersBtn.addEventListener("click", () => showOrders(c.id));
+    // client.appendChild(ordersBtn);
+    customerButtons.appendChild(ordersBtn);
+
+    // Create order button
+    const createBtn = document.createElement("button");
+    createBtn.textContent = "Создать заказ";
+    createBtn.addEventListener("click", () => createOrder(c.id));
+    // client.appendChild(createBtn);
+    customerButtons.appendChild(createBtn);
+
+    // Edit button
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Изменить";
+    editBtn.addEventListener("click", () => editCustomer(c.id, c.name, c.email));
+    // client.appendChild(editBtn);
+    customerButtons.appendChild(editBtn);
+
+    // Delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Удалить";
+    deleteBtn.addEventListener("click", () => deleteCustomer(c.id));
+    // client.appendChild(deleteBtn);
+    customerButtons.appendChild(deleteBtn);
+
+    client.appendChild(customerButtons);
+
+    // Orders container
+    const ordersDiv = document.createElement("div");
+    ordersDiv.id = `orders-${c.id}`;
+    ordersDiv.className = "orders";
+    client.appendChild(ordersDiv);
     
-        // Edit button
-        const editBtn = document.createElement("button");
-        editBtn.textContent = "Изменить";
-        editBtn.addEventListener("click", () => editCustomer(c.id, c.name, c.email));
-        client.appendChild(editBtn);
-    
-        // Delete button
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Удалить";
-        deleteBtn.addEventListener("click", () => deleteCustomer(c.id));
-        client.appendChild(deleteBtn);
-    
-        // Orders container
-        const ordersDiv = document.createElement("div");
-        ordersDiv.id = `orders-${c.id}`;
-        ordersDiv.className = "orders";
-        client.appendChild(ordersDiv);
-        
-        clientList.appendChild(client);
+    clientList.appendChild(client);
   });
 }
 
@@ -86,7 +95,6 @@ document.querySelector(".create-customer").addEventListener("submit", async (e) 
   e.preventDefault();
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
-  const clientList = document.querySelector(".clients");
 
   const res = await fetch(`${API_URL}/customers`, {
     method: "POST",
@@ -101,7 +109,7 @@ document.querySelector(".create-customer").addEventListener("submit", async (e) 
     fetchCustomers();
     e.target.reset();
   } else {
-    alert("Ошибка при добавлении клиента");
+    console.log("Ошибка при добавлении клиента");
   }
 });
 
@@ -125,7 +133,7 @@ async function editCustomer(id, oldName, oldEmail) {
 
 // Delete customer
 async function deleteCustomer(id) {
-  if (!confirm("Удалить клиента?")) return;
+  if (!confirm("Вы уверены, что хотите удалить клиента?")) return;
 
   const res = await fetch(`${API_URL}/customers/${id}`, {
     method: "DELETE",
@@ -142,7 +150,7 @@ async function showOrders(customerId) {
   });
 
   if (!res.ok) {
-    alert("Ошибка при загрузке заказов");
+    console.log("Ошибка при загрузке заказов");
     return;
   }
 
@@ -173,7 +181,7 @@ async function createOrder(customerId) {
   if (res.ok) {
     showOrders(customerId);
   } else {
-    alert("Ошибка при создании заказа");
+    console.log("Ошибка при создании заказа");
   }
 }
 

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("token", data.access_token);
   
       // redirects
-      window.location.href = "../pages/dashboard.html";
+      window.location.href = "../pages/clients.html";
     } catch (err) {
       console.error(err);
       console.log("Network error");

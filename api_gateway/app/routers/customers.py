@@ -58,11 +58,9 @@ async def delete_customer(customer_id: str, request: Request):
 @router.get("")
 async def list_customers(
     request: Request,
-    page: int = Query(1, ge=1),
-    page_size: int = Query(20, ge=1, le=100)
 ):
     client: CustomerClient = request.app.state.customer_client
-    res = await client.list(page=page, page_size=page_size)
+    res = await client.list()
     return {
         "customers": [
             {

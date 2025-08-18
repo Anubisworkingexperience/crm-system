@@ -28,8 +28,7 @@ message UpdateCustomerRequest {
 }
 
 message ListCustomersRequest {
-  int32 page = 1;
-  int32 per_page = 2;
+  
 }
 
 message CustomerResponse {

@@ -31,5 +31,5 @@ class CustomerClient:
     async def delete(self, id: str):
         return await self.stub.DeleteCustomer(customer_pb2.DeleteCustomerRequest(id=id))
 
-    async def list(self, page: int = 1, page_size: int = 20):
-        return await self.stub.ListCustomers(customer_pb2.ListCustomersRequest(page=page, page_size=page_size))
+    async def list(self):
+        return await self.stub.ListCustomers(customer_pb2.ListCustomersRequest())

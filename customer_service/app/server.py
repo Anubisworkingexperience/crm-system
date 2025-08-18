@@ -1,7 +1,7 @@
 import grpc
 from concurrent import futures
-from .proto import customer_pb2_grpc
-from .proto import customer_pb2
+from proto import customer_pb2_grpc
+from proto import customer_pb2
 from sqlalchemy.orm import Session
 from models import Customer
 from db import get_db
@@ -67,7 +67,7 @@ class CustomerServiceServicer(customer_pb2_grpc.CustomerServiceServicer):
     def ListCustomers(self, request, context):
         db = next(get_db())
         customers = db.query(Customer).all()
-        return customer_pb2.CustomerListResponse(
+        return customer_pb2.ListCustomersResponse(
             customers=[
                 customer_pb2.CustomerResponse(
                     id=str(c.id),

@@ -9,6 +9,10 @@ OPEN_PATHS = {"/login", "/register", "/docs"}
 class JWTMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         path = request.url.path
+
+        if request.method == "OPTIONS":
+            return await call_next(request)
+        
         if any(path == p or path.startswith("/docs") for p in OPEN_PATHS):
             return await call_next(request)
 

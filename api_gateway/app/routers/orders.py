@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request, Query
 from pydantic import BaseModel, Field
 from app.grpc.order_client import OrderClient
+from grpc import aio, StatusCode
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -16,13 +17,13 @@ async def create_order(data: OrderIn, request: Request):
         res = await client.create_order(data.customer_id, data.product_name, float(data.price))
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-    o = res.order
+   
     return {
-        "id": o.id,
-        "customer_id": o.customer_id,
-        "product_name": o.product_name,
-        "price": o.price,
-        "created_at": o.created_at.ToDatetime().isoformat()
+        "id": res.id,
+        "customer_id": res.customer_id,
+        "product_name": res.product_name,
+        "price": res.price,
+        "created_at": res.created_at
     }
 
 @router.get("/{order_id}")
@@ -34,27 +35,30 @@ async def get_order(order_id: str, request: Request):
         raise HTTPException(status_code=404, detail="Order not found")
     return {
         "id": o.id, "customer_id": o.customer_id, "product_name": o.product_name,
-        "price": o.price, "created_at": o.created_at.ToDatetime().isoformat()
+        "price": o.price, "created_at": o.created_at
     }
 
 @router.get("/by-customer/{customer_id}")
 async def get_customer_orders(
     customer_id: str,
     request: Request,
-    page: int = Query(1, ge=1),
-    page_size: int = Query(20, ge=1, le=100)
 ):
     client: OrderClient = request.app.state.order_client
-    res = await client.get_customer_orders(customer_id, page, page_size)
+    try:
+        res = await client.get_customer_orders(customer_id)
+    except aio.AioRpcError as e:
+        if e.code() == StatusCode.NOT_FOUND:
+            raise HTTPException(status_code=404, detail="No orders found for this customer")
+        raise HTTPException(status_code=500, detail="grpc error: " + e.details())
+    
     return {
-        "total": res.total,
         "orders": [
             {
                 "id": o.id,
                 "customer_id": o.customer_id,
                 "product_name": o.product_name,
                 "price": o.price,
-                "created_at": o.created_at.ToDatetime().isoformat()
+                "created_at": o.created_at
             } for o in res.orders
         ]
     }

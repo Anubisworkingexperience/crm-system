@@ -1,7 +1,7 @@
 import grpc
 from concurrent import futures
-from .proto import order_pb2
-from .proto import order_pb2_grpc
+from proto import order_pb2
+from proto import order_pb2_grpc
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from models import Order
@@ -36,10 +36,10 @@ class OrderServiceServicer(order_pb2_grpc.OrderServiceServicer):
             customer_id=str(order.customer_id),
             product_name=order.product_name,
             price=order.price,
-            created_at=order.created_at.isoformat()
+            created_at=order.created_at
         )
 
-    def GetCustomerOrders(self, request, context):
+    def GetCustomerOrder(self, request, context):
         db = next(get_db())
         query = db.query(Order).filter(Order.customer_id == uuid.UUID(request.customer_id))
         
@@ -48,10 +48,7 @@ class OrderServiceServicer(order_pb2_grpc.OrderServiceServicer):
             context.set_details("No orders found for this customer")
             return order_pb2.CustomerOrder()
         
-        page = request.page if request.page > 0 else 1
-        page_size = request.page_size if request.page_size > 0 else 10
-        total_count = query.count()
-        orders = query.order_by(desc(Order.created_at)).offset((page - 1) * page_size).limit(page_size).all()
+        orders = query.order_by(desc(Order.created_at)).all()
         
         return order_pb2.CustomerOrder(
             orders=[
@@ -62,9 +59,9 @@ class OrderServiceServicer(order_pb2_grpc.OrderServiceServicer):
                     price=o.price,
                     created_at=o.created_at.isoformat()
                 ) for o in orders
-            ],
-            total_count=total_count
+            ]
         )
+    
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

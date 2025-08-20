@@ -53,7 +53,10 @@ function renderCustomers(customers) {
     // Show orders button
     const ordersBtn = document.createElement("button");
     ordersBtn.textContent = "Заказы";
-    ordersBtn.addEventListener("click", () => showOrders(c.id));
+    ordersBtn.addEventListener("click", () => {
+      console.log(c.id);
+      showOrders(c.id)
+    });
     // client.appendChild(ordersBtn);
     customerButtons.appendChild(ordersBtn);
 
@@ -145,22 +148,37 @@ async function deleteCustomer(id) {
 
 // Show orders for a customer
 async function showOrders(customerId) {
-  const res = await fetch(`${API_URL}/orders?customer_id=${customerId}`, {
+  const res = await fetch(`${API_URL}/orders/by-customer/${customerId}`, {
     headers: { Authorization: `Bearer ${token}` }
   });
 
+  const ordersDiv = document.getElementById(`orders-${customerId}`);
+  ordersDiv.textContent = "";
+
   if (!res.ok) {
-    console.log("Ошибка при загрузке заказов");
+    if (res.status === 404) {
+      ordersDiv.textContent = "Заказов нет";
+    }
+    else {
+      ordersDiv.textContent = "Ошибка при загрузке заказов";
+    }
     return;
   }
 
   const data = await res.json();
-  const ordersDiv = document.getElementById(`orders-${customerId}`);
-  ordersDiv.innerHTML = data.orders.map(o => `
-    <div class="order">
-      <p>${o.product_name} — ${o.price}₽ (${new Date(o.created_at).toLocaleString()})</p>
-    </div>
-  `).join("");
+  console.log(data);
+
+  data.orders.map((order) => {
+    const orderContainer = document.createElement('div');
+    orderContainer.classList.add('order');
+    
+    const orderText = document.createElement('p');
+    orderText.textContent = `${order.product_name} - ${order.price} ₽ 
+    ${new Date(order.created_at).toLocaleString()}`;
+    
+    orderContainer.appendChild(orderText);
+    ordersDiv.appendChild(orderContainer);
+  })
 }
 
 // Create order for a customer

@@ -24,6 +24,6 @@ class OrderClient:
     async def get_order(self, id: str):
         return await self.stub.GetOrder(order_pb2.GetOrderRequest(id=id))
 
-    async def get_customer_orders(self, customer_id: str, page: int = 1, page_size: int = 20):
-        req = order_pb2.GetCustomerOrdersRequest(customer_id=customer_id, page=page, page_size=page_size)
-        return await self.stub.GetCustomerOrders(req)
+    async def get_customer_orders(self, customer_id: str):
+        req = order_pb2.GetCustomerOrderRequest(customer_id=customer_id)
+        return await self.stub.GetCustomerOrder(req)

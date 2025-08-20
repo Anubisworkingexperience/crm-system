@@ -72,3 +72,10 @@ DATABASE_URL=postgresql+psycopg2://<username>:<password>@<host>:<port>/<database
 source venv/bin/activate
 python3 app/server.py
 ```
+
+9. Запустите Order Service
+```bash
+cd ../order_service
+source venv/bin/activate
+python3 app/server.py
+```

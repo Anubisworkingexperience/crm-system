@@ -51,11 +51,18 @@ function renderCustomers(customers) {
     customerButtons.classList.add('customer-buttons');
     
     // Show orders button
+    let ordersOpen = false;
     const ordersBtn = document.createElement("button");
     ordersBtn.textContent = "Заказы";
     ordersBtn.addEventListener("click", () => {
-      console.log(c.id);
-      showOrders(c.id)
+      ordersOpen = !ordersOpen;
+      if (ordersOpen) {
+        ordersDiv.style.display = 'block';
+        showOrders(c.id);
+      }
+      else {
+        ordersDiv.style.display = 'none';
+      }
     });
     // client.appendChild(ordersBtn);
     customerButtons.appendChild(ordersBtn);

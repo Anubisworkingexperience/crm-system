@@ -36,7 +36,7 @@ class OrderServiceServicer(order_pb2_grpc.OrderServiceServicer):
             customer_id=str(order.customer_id),
             product_name=order.product_name,
             price=order.price,
-            created_at=order.created_at
+            created_at=order.created_at.isoformat()
         )
 
     def GetCustomerOrder(self, request, context):

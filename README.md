@@ -5,6 +5,8 @@ CRM-система, состоящая из отдельных микросер�
 - Customer Service: управление клиентами (CRUD)
 - Order Service: создание заказов
 
+Коммуникация между API Gateway и микросервисами через gRPC.
+
 # Запуск сервисов
 
 1. Настройте postgreSQL локально
@@ -46,19 +48,38 @@ jwt токен можно сгенерировать так:
 openssl rand -hex 32
 ```
 
-5. Запустите backend сервер
+5. Сгенерируйте код клиентов из proto файлов
+Proto файл - файл с расширением .proto в директории app/proto
+
+Из api_gateway:
 ```bash
+python3 -m grpc_tools.protoc -I./app/proto --python_out=./app/proto --grpc_python_out=./app/proto app/proto/customer.proto app/proto/order.proto
+```
+Из customer_service:
+```bash
+cd ../customer_service
+python3 -m grpc_tools.protoc -I./app/proto --python_out=./app/proto --grpc_python_out=./app/proto app/proto/customer.proto
+```
+Из order_service:
+```bash
+cd ../order_service
+python3 -m grpc_tools.protoc -I./app/proto --python_out=./app/proto --grpc_python_out=./app/proto app/proto/order.proto
+```
+
+6. Запустите backend сервер
+```bash
+cd ../api_gateway
 source venv/bin/activate
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
-6. Запустите frontend сервер
+7. Запустите frontend сервер
 ```bash
 cd ../frontend
 source venv/bin/activate
 python3 -m http.server 5500
 ```
 
-7. Настройте переменные окружения для Customer Service
+8. Настройте переменные окружения для Customer Service
 ```bash
 cd ../customer_service
 touch .env
@@ -67,13 +88,13 @@ cp .env.example .env
 DATABASE_URL=postgresql+psycopg2://<username>:<password>@<host>:<port>/<database_name>
 ```
 
-8. Запустите Customer Service
+9. Запустите Customer Service
 ```bash
 source venv/bin/activate
 python3 app/server.py
 ```
 
-9. Запустите Order Service
+10. Запустите Order Service
 ```bash
 cd ../order_service
 source venv/bin/activate
